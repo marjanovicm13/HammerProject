@@ -1,0 +1,20 @@
+<app-navbar></app-navbar> 
+
+<div class="form">
+    <form #loginForm = "ngForm" (ngSubmit)="login(loginForm.value)">
+        <label for="username">Username:</label>
+        <input type="text" ngModel name="loginUserName">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" ngModel name="loginPassword">
+        <br>
+        <button>Login</button>
+    </form>
+    <p *ngIf="errorMessage == true">Wrong username or password!</p>
+    <div class="fbButton">
+        <button type="button" (click)="loginWithFacebook()" class="btn btn-primary btn-block">Sign in with Facebook</button>
+      </div>
+</div>
+
+
+

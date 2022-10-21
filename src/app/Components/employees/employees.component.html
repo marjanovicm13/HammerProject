@@ -1,0 +1,53 @@
+<h4>Employees</h4>
+
+<div class="form">
+    <form #employeesForm = "ngForm" (ngSubmit)="createEmployee(employeesForm.value)">
+        <label for="name">Employee name: </label>
+        <input ngModel name="employeeName" placeholder="name">
+        <br>
+        <label for="salary">Salary: </label>
+        <input ngModel name="salary" placeholder="salary">
+        <br>
+        <label for="departmentNo">Department number: </label>
+        <input ngModel name="departmentNo" placeholder="departmentNo">
+        <br>
+        <label for="lastModifyDate">Last modify date: </label>
+        <input type="datetime-local" ngModel name="lastModifyDate" placeholder="lastModifyDate">
+        <br>
+        <button id="add">Add new employee</button>
+    </form>
+</div>
+
+
+<div class="list">
+    <h5 (click)="getJson()">List of employees:</h5>
+    <table id="employeeTable">
+        <thead>
+            <th>employeeNo</th>
+            <th>employeeName</th>
+            <th>Salary</th>
+            <th>departmentNo</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employees">
+                <ng-container *ngIf="employee.updateClicked != true">
+                    <td>{{employee.employeeNo}}</td>
+                    <td>{{employee.employeeName}}</td>
+                    <td>{{employee.salary}}</td>
+                    <td>{{employee.departmentNo}}</td>
+                    <td class="tableButtons"><button class="tableButton" (click)="deleteEmployee(employee)">Delete</button></td>
+                    <td class="tableButtons"><button class="tableButton" (click)="updateEmployee(employee)">Update</button></td>
+                </ng-container>
+                <ng-container *ngIf="employee.updateClicked == true">
+                    <td>{{employee.employeeNo}}</td>
+                    <td><input input class = "updateInput" [(ngModel)]="employee.employeeName"></td>
+                    <td><input input class = "updateInput" [(ngModel)]="employee.salary"></td>
+                    <td><input input class = "updateInput" [(ngModel)]="employee.departmentNo"></td>
+                    <td class="tableButtons"><button class="tableButton" (click)="saveEmployee(employee)">Save</button></td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+    <button id="save" (click)="saveAsTxt()">Export into text format</button>
+    
+    </div>

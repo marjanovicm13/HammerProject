@@ -1,0 +1,47 @@
+<h4>Departments</h4>
+
+<div class="form">
+    <form #departmentsForm = "ngForm" (ngSubmit)="createDepartment(departmentsForm.value)">
+        <label for="name">Department name: </label>
+        <input placeholder="name" ngModel name="departmentName">
+        <br>
+        <label for="location">Department location: </label>
+        <input placeholder="location" ngModel name="departmentLocation">
+        <br>
+        <button id="add">Add new department</button>
+    </form>
+</div>
+
+
+<div class="list">
+<h5 (click)="getJson()">List of departments:</h5>
+<table id="departmentTable">
+    <thead>
+        <th>departmentNo</th>
+        <th>departmentName</th>
+        <th>departmentLocation</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let department of departments">
+            <ng-container *ngIf="department.updateClicked != true">
+                <td>{{department.departmentNo}}</td>
+                <td>{{department.departmentName}}</td>
+                <td>{{department.departmentLocation}}</td>
+                <td class="tableButtons"><button class="tableButton" (click)="deleteDepartment(department)">Delete</button></td>
+                <td class="tableButtons"><button class="tableButton" (click)="updateDepartment(department)">Update</button></td>
+            </ng-container>
+            <ng-container *ngIf="department.updateClicked == true">
+
+                        <td>{{department.departmentNo}}</td>
+                        <td style="text-align:center;"><input class = "updateInput" [(ngModel)]="department.departmentName"></td>
+                        <td><input class = "updateInput" [(ngModel)]="department.departmentLocation"></td>
+                        <td class="tableButtons"><button class="tableButton" (click)="saveDepartment(department)">Save</button></td>
+                    
+       
+            </ng-container>
+        </tr>
+    </tbody>
+</table>
+
+
+</div>
