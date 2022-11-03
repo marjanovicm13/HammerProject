@@ -1,0 +1,85 @@
+<app-navbar></app-navbar> 
+
+<button (click)="avgSalary()">What is the average salary for a Development employee in any location except London?</button>
+<table *ngIf="showAvgSalary == true">
+    <thead>
+        <th>Average salary</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let avgSalary of avgSalaryIs">
+            <td>{{avgSalary["Average salary"]}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<button (click)="getLocations()">Which locations have more than one employee? What are those locations and how many employees are
+    in each?
+</button>
+<table *ngIf="showLocations == true">
+    <thead>
+        <th>departmentLocations</th>
+        <th>Number of employees</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let loc of locations">
+            <td>{{loc.departmentLocation}}</td>
+            <td>{{(loc["Number of employees"])}}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<button (click)="getDevelopmentLocations()">How many development employees are in each location?</button>
+<table *ngIf="showDevelopmentLocations == true">
+    <thead>
+        <th>departmentLocations</th>
+        <th>Development employees</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let loc of developmentLocations">
+            <td>{{loc.departmentLocation}}</td>
+            <td>{{(loc["Development employees"])}}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<button (click)="getSecondHighestSalary()">Show the second highest salary.</button>
+<table *ngIf="showSecondHighestSalary == true">
+    <thead>
+        <th>Second highest salary</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let salary of secondHighestSalary">
+            <td>{{salary.salary}}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<button (click)="getDepartmentView()">Show department view vwDepartment.</button>
+<table *ngIf="showDepartmentView == true">
+    <thead>
+        <th>departmentNo</th>
+        <th>departmentDescription</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let department of departmentView">
+            <td>{{department.departmentNo}}</td>
+            <td>{{department.departmentDescription}}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<button (click)="increaseSalary()">Increase salary with a percentage.</button>
+<div id="salaryIncrease" *ngIf="showIncreaseSalary == true">
+    <input type="number" name="employeeNo" placeholder="employeeNo" [(ngModel)]="employeeNo">
+    <input type="number" name="increasePercentage" placeholder="increasePercentage" [(ngModel)]="increasePercentage">
+    <button (click)="submitSalary(employeeNo, increasePercentage)">Submit</button>
+</div>
+<br>
+<button (click)="decreaseSalary()">Decrease salary with a percentage.</button>
+<div id="salaryDecrease" *ngIf="showDecreaseSalary == true">
+    <input type="number" name="employeeNo" placeholder="employeeNo" [(ngModel)]="employeeNo">
+    <input type="number" name="decreasePercentage" placeholder="decreasePercentage" [(ngModel)]="decreasePercentage">
+    <button (click)="submitDecreaseSalary(employeeNo, decreasePercentage)">Submit</button>
+</div>

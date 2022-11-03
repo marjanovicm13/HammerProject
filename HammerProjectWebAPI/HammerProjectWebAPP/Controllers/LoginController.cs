@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using HammerProjectWebAPP.Services;
 
 namespace HammerProjectWebAPP.Controllers
 {
@@ -17,11 +23,14 @@ namespace HammerProjectWebAPP.Controllers
   public class LoginController : Controller
   {
     private readonly IConfiguration _configuration;
-    private HammerProjectDbContext _dbContext;
-    public LoginController(IConfiguration configuration, HammerProjectDbContext dbContext)
+    private readonly HammerProjectDbContext _dbContext;
+    private readonly ITokenService _tokenService;
+   
+    public LoginController(IConfiguration configuration, HammerProjectDbContext dbContext, ITokenService tokenService)
     {
       _configuration = configuration;
       _dbContext = dbContext;
+      _tokenService = tokenService;
     }
     [HttpGet]
     public JsonResult GetLoggedIn()
@@ -29,7 +38,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"select *
       FROM login;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -47,44 +56,46 @@ namespace HammerProjectWebAPP.Controllers
     }
 
     [HttpPost]
-    public IActionResult Post(Login request)
+    public IActionResult Post(login request)
     {
-      try { 
-          var username = request.loginUserName;
-          username.TrimStart('"');
-
-          var user = _dbContext.Login.FirstOrDefault(x => x.loginUserName == username);
-
-          if (user == null)
-          {
-            return StatusCode(404, "User not found");
-          }
-          else if(user.loginPassword == request.loginPassword)
-          {
-            return Ok(user);
-          }
-          else
-          {
-           return StatusCode(403, "Wrong password");
-          }
-      }
-      catch(Exception)
+      if (request == null)
       {
-        return StatusCode(500, "An error has occured");
+        return BadRequest("Invalid client request");
+      }
+
+      var username = request.loginUserName;
+      username.TrimStart('"');
+
+
+      var user = _dbContext.login.FirstOrDefault(x => x.loginUserName == username);
+
+      if (user == null)
+      {
+        return StatusCode(404, "User not found");
+      }
+      else if (user.loginPassword == request.loginPassword)
+      {
+        var claims = new List<Claim>
+             {
+                new Claim(ClaimTypes.Name, user.loginUserName),
+                new Claim("name", user.loginUserName)
+            };
+
+        var accessToken = _tokenService.GenerateAccessToken(claims);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+
+        user.refreshToken = refreshToken;
+        user.refreshTokenExpiryTime = DateTime.Now.AddDays(1);
+
+        _dbContext.SaveChanges();
+
+        return Ok(new AuthenticatedResponse { accessToken = accessToken, refreshToken = refreshToken });
+      }
+      else
+      {
+        return StatusCode(403, "Wrong password");
       }
     }
-
-    //public IActionResult Index()
-    //{
-    //  return View();
-    //}
-
-    //public IActionResult Authenticate()
-    //{
-    //  return RedirectToAction("Index");
-    //}
-
-    
-  }
+    }
 }
 

@@ -3,6 +3,6 @@ export interface Employee {
     employeeName: string,
     salary: number,
     departmentNo: number,
-    lastModifyDate?: Date
+    lastModifyDate?: Date,
     updateClicked: boolean
 }

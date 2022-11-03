@@ -1,0 +1,21 @@
+
+{
+    "region" : "eu-central-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp3.1",
+    "self-contained" : false,
+    "application"    : "HammerProjectWebAPP",
+    "environment"    : "HammerProjectWebAPP-dev",
+    "app-path"       : "/",
+    "iis-website"    : "Default Web Site",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-06fbae37644cbf9e5\";\"aws:ec2:vpc,Subnets\"=\"subnet-0315e850fc287c57e\"",
+    "solution-stack"       : "64bit Windows Server 2016 v2.10.5 running IIS 10.0",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "hammerprojectwebapp-dev",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role"
+}

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using HammerProjectWebAPP.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,7 @@ namespace HammerProjectWebAPP.Controllers
     {
       string query = @"select * FROM department;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
       MySqlDataReader myReader;
       using(MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -42,13 +43,14 @@ namespace HammerProjectWebAPP.Controllers
       return new JsonResult(table);
     }
 
+    [Authorize]
     [HttpPost]
     public JsonResult Post(Department dep)
     {
       string query = @"insert into department (departmentName, departmentLocation) values
       (@departmentName, @departmentLocation);";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -67,6 +69,7 @@ namespace HammerProjectWebAPP.Controllers
       return new JsonResult("Added successfully");
     }
 
+    [Authorize]
     [HttpPut]
     public JsonResult Put(Department dep)
     {
@@ -74,7 +77,7 @@ namespace HammerProjectWebAPP.Controllers
       departmentName = @departmentName, departmentLocation = @departmentLocation
       where departmentNo = @departmentNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -94,13 +97,14 @@ namespace HammerProjectWebAPP.Controllers
       return new JsonResult("Updated successfully");
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public JsonResult Delete(int id)
     {
-      string query = @"delete from Department
+      string query = @"delete from department
       where departmentNo = @departmentNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {

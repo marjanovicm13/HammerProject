@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Employee } from 'src/app/Models/Employee/employee';
 import { EmployeeService } from 'src/app/Services/employee.service';
+import { RefreshTokenService } from 'src/app/Services/refresh-token.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-employees',
@@ -12,7 +14,7 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[] = [];
   textToSave: BlobPart = "";
 
-  constructor(private employeeService: EmployeeService, private elementRef: ElementRef) { }
+  constructor(private employeeService: EmployeeService, private refreshTokenService: RefreshTokenService, private jwtHelper: JwtHelperService) { }
 
   ngOnInit(): void {
     this.getAllEmployees();
@@ -24,20 +26,64 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteEmployee(employee: Employee){
-    this.employeeService.deleteEmployee(employee).subscribe(() => this.getAllEmployees());
+    this.refreshTokenService.isAccessTokenExpired.next(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!))
+
+      this.employeeService.deleteEmployee(employee).subscribe({
+        next: () => {
+          this.getAllEmployees()
+        },
+        error: response => {
+          console.error(response)
+          alert("You are not authorized to delete an employee.")
+        }
+        });
+
   }
 
   createEmployee(employee: Employee){
-    this.employeeService.createEmployee(employee).subscribe(() => this.getAllEmployees());
+    this.refreshTokenService.isAccessTokenExpired.next(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!))
+
+    if(employee.employeeName != ""){
+      this.employeeService.createEmployee(employee).subscribe({
+        next: () => {
+          this.getAllEmployees()
+        },
+        error: response => {
+            console.error(response)
+            alert("You are not authorized to create an employee.")
+        }
+        });
+    }
+    else{
+      alert("employeeName, salary and departmentNo must be filled.")
+    }
   }
 
   updateEmployee(employee: Employee){
-    employee.updateClicked = true;
+    this.refreshTokenService.isAccessTokenExpired.next(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!))
+    let token = sessionStorage.getItem("jwt")
+    if(token != null){
+      employee.updateClicked = true;
+    }
+    else{
+      alert("You are not authorized to update an employee.")
+    }
   }
 
   saveEmployee(employee: Employee){
-    this.employeeService.updateEmployee(employee).subscribe(() => this.getAllEmployees());
-    employee.updateClicked = false;
+    //this.refreshTokenService.isAccessTokenExpired.next(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!))
+    this.employeeService.updateEmployee(employee).subscribe(({
+      next: () => {
+        this.getAllEmployees()
+        employee.updateClicked = false;
+      },
+      error: response => {
+          console.error(response)
+          alert("You are not authorized to create an employee.")
+          employee.updateClicked = false;
+      }
+      }))
+    
   }
 
   getJson(){

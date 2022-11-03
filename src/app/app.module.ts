@@ -11,6 +11,15 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { LoginComponent } from './Components/login/login.component';
 import { HomeComponent } from './Components/home/home.component';
 import { SocialLoginModule, FacebookLoginProvider, SocialAuthServiceConfig } from 'angularx-social-login';
+import { JwtModule } from "@auth0/angular-jwt";
+import { QueriesComponent } from './Components/queries/queries.component';
+import { initializeApp } from "firebase/app";
+
+
+export function tokenGetter() { 
+  return sessionStorage.getItem("jwt"); 
+}
+
 
 
 @NgModule({
@@ -20,7 +29,8 @@ import { SocialLoginModule, FacebookLoginProvider, SocialAuthServiceConfig } fro
     EmployeesComponent,
     NavbarComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    QueriesComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +39,13 @@ import { SocialLoginModule, FacebookLoginProvider, SocialAuthServiceConfig } fro
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["wv2l8ow7yk.execute-api.eu-central-1.amazonaws.com", "mbt72nmlz2.execute-api.eu-central-1.amazonaws.com", "lrw95c4ca3.execute-api.eu-central-1.amazonaws.com", "l1xu4yqmh5.execute-api.eu-central-1.amazonaws.com", "q1kv4srf0k.execute-api.eu-central-1.amazonaws.com", "hbv5yzzfr0.execute-api.eu-central-1.amazonaws.com"],
+        disallowedRoutes: []
+      }
+    })
   ],
   providers: [
     {
@@ -43,7 +60,7 @@ import { SocialLoginModule, FacebookLoginProvider, SocialAuthServiceConfig } fro
         ],
       } as SocialAuthServiceConfig,
     },
-  ],
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

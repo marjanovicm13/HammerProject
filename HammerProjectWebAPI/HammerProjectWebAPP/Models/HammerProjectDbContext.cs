@@ -15,7 +15,8 @@ namespace HammerProjectWebAPP.Models
 
     }
 
-    public DbSet<Login> Login { get; set; }
+    public DbSet<login> login { get; set; }
+    public DbSet<facebookaccounts> facebookaccounts { get; set; }
 
   }
 }
