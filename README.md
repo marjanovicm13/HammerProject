@@ -1,3 +1,5 @@
+Hosted on firebase: https://hammer-8d384.web.app. Database is hosted on Amazon Web Services RDS. API calls are made through Amazon Web Service Lambda.
+
 # HammerProject
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.

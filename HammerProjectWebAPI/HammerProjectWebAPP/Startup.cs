@@ -11,8 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using Owin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HammerProjectWebAPP.Services;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 
 namespace HammerProjectWebAPP
 {
@@ -30,7 +28,6 @@ namespace HammerProjectWebAPP
     {
 
       //Enable CORS
-      //services.AddCors();
       services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
@@ -64,67 +61,43 @@ namespace HammerProjectWebAPP
       };
     });
 
-      //services.AddTransient<IFacebookService, FacebookService>();
       services.AddTransient<ITokenService, TokenService>();
       services.AddTransient<IAccountService, AccountService>();
 
-      services.AddAuthentication().AddFacebook(facebookOptions =>
-      {
-        facebookOptions.AppId = Constants.facebookId;
-        facebookOptions.AppSecret = Constants.facebookSecret;
-        facebookOptions.SignInScheme = "Bearer";
-      });
-
-
-
-
+      //services.AddAuthentication().AddFacebook(facebookOptions =>
+      //{
+      //  facebookOptions.AppId = Constants.facebookId;
+      //  facebookOptions.AppSecret = Constants.facebookSecret;
+      //  facebookOptions.SignInScheme = "Bearer";
+      //});
 
       services.AddControllersWithViews();
 
       var connectionString = Configuration.GetConnectionString("WebApiDatabase");
 
-            services.AddDbContext<HammerProjectDbContext>(options => options.UseMySQL(connectionString));
-
-
+      services.AddDbContext<HammerProjectDbContext>(options => options.UseMySQL(connectionString));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-      app.UseOptions();
       app.UseCors("CorsPolicy");
-      
-
-      //Enable CORS - Cross-Origin Request Blocked
-      //app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed((host)=>true));
-      //app.UseCors(builder => builder
-      //    .AllowAnyHeader()
-      //    .AllowAnyMethod()
-      //    .SetIsOriginAllowed((host) => true)
-      //    .AllowCredentials()
-      //);
-
-      //      app.UseCors(corsPolicyBuilder =>
-      //       corsPolicyBuilder.WithOrigins("https://localhost:4200")
-      //      .AllowAnyMethod()
-      //      .AllowAnyHeader()
-      //);
 
       if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+      app.UseRouting();
 
       app.UseAuthentication();
 
       app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+      app.UseEndpoints(endpoints =>
+      {
+          endpoints.MapControllers();
+      });
         }
     }
 }

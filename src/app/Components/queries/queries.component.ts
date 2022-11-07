@@ -32,13 +32,17 @@ export class QueriesComponent implements OnInit {
   decreasePercentage!: number
 
   ngOnInit(): void {
-    this.employeeService.getEmployees()
-                        .subscribe((result: Employee[]) => {
-                          this.employees = result
-                          this.employees.forEach(employee => {
-                            this.employeeArray.push(employee.employeeNo)
-                          });
-                        });
+    this.getEmployees()
+  }
+
+  async getEmployees(){
+    (await this.employeeService.getEmployees())
+    .subscribe((result: Employee[]) => {
+      this.employees = result
+      this.employees.forEach(employee => {
+        this.employeeArray.push(employee.employeeNo)
+      });
+    });
   }
 
   avgSalary(){
@@ -94,7 +98,6 @@ export class QueriesComponent implements OnInit {
       this.showDepartmentView = true;
       this.queriesService.getDepartmentView().subscribe((response) => {
         this.departmentView = JSON.parse(JSON.stringify(response))
-        console.log(this.departmentView)
       })
     }
     else{
@@ -117,7 +120,6 @@ export class QueriesComponent implements OnInit {
     } 
     else if(this.employeeArray.includes(employeeNo)){
       this.queriesService.increaseSalary(employeeNo, increasePercentage).subscribe((response)=>{
-        console.log(response)
         alert("Salary increased.")
       })
     }
@@ -127,7 +129,7 @@ export class QueriesComponent implements OnInit {
   }
 
   decreaseSalary(){
-    if(this.showIncreaseSalary != true){
+    if(this.showDecreaseSalary != true){
       this.showDecreaseSalary = true;
     }
     else{
@@ -141,7 +143,6 @@ export class QueriesComponent implements OnInit {
     } 
     else if(this.employeeArray.includes(employeeNo)){
       this.queriesService.decreaseSalary(employeeNo, decreasePercentage).subscribe((response)=>{
-        console.log(response)
         alert("Salary decreased.")
       })
     }
@@ -149,5 +150,4 @@ export class QueriesComponent implements OnInit {
       alert("Employee number is empty or it doesn't exist.")
     }
   }
-
 }

@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using HammerProjectWebAPP.Models;
 using HammerProjectWebAPP.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HammerProjectWebAPP.Controllers
@@ -33,12 +30,12 @@ namespace HammerProjectWebAPP.Controllers
       }
 
       var facebookUser = _accountService.GetUserFromFacebookAsync(facebookToken.facebookToken);
-      //var domainUser = await unitOfWork.Users.GetAsync(facebookUser.Email);
-
       
       var claims = new List<Claim>
             {
-              new Claim(ClaimTypes.Name, facebookUser.Result.email)
+              new Claim(ClaimTypes.Name, facebookUser.Result.email),
+              new Claim("firstName", facebookUser.Result.firstName),
+              new Claim("lastName", facebookUser.Result.lastName)
           };
 
       var accessToken = _tokenService.GenerateAccessToken(claims);

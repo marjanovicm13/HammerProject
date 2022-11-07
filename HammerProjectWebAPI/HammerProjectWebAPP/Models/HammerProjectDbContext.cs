@@ -1,10 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MySql.EntityFrameworkCore;
-using MySql.Data;
 
 namespace HammerProjectWebAPP.Models
 {

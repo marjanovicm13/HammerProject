@@ -8,33 +8,22 @@ import { Department } from '../Models/Department/department';
   providedIn: 'root'
 })
 export class DepartmentService {
-  
-  private url = "department";
 
   constructor(private http: HttpClient) { }
 
   public getDepartments(): Observable<Department[]> {
-
     return this.http.get<Department[]>(`${environment.baseDepartmentApiUrl}`);
-
   }
 
   public updateDepartments(department: Department): Observable<Department[]>{
-
     return this.http.put<Department[]>(`${environment.baseDepartmentApiUrl}`, department);
-
   }
 
   public createDepartment(department: Department): Observable<Department[]>{
-
-    //return this.http.post<Department[]>(`${environment.baseApiUrl}/${this.url}`, department);
-    return this.http.post<Department[]>("https://l1xu4yqmh5.execute-api.eu-central-1.amazonaws.com/GetPutPost", department);
-
+    return this.http.post<Department[]>(`${environment.baseDepartmentApiUrl}`, department);
   }
 
   public deleteDepartment(department: Department): Observable<Department[]> {
-
     return this.http.delete<Department[]>(`	https://hbv5yzzfr0.execute-api.eu-central-1.amazonaws.com/api/department/${department.departmentNo}`);
-
   }
 }

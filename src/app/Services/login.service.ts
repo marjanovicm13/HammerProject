@@ -1,10 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AuthenticatedResponse } from '../Models/AuthenticatedResponse/AuthenticatedResponse';
-import { facebookToken } from '../Models/Facebook/facebookToken';
 import { Login } from '../Models/Login/login';
+import {
+  SocialAuthService,
+  SocialUser,
+} from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +16,8 @@ import { Login } from '../Models/Login/login';
 export class LoginService {
 
   private url = "login"
-  loggedIn: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false);
-  userName: BehaviorSubject<String> = new BehaviorSubject<String>("");
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router, private socialAuthService: SocialAuthService) { }
 
   public loginUser(user: Login): Observable<AuthenticatedResponse>{
     return this.http.post<AuthenticatedResponse>(`${environment.baseApiUrl}/${this.url}`, user)
@@ -30,5 +32,26 @@ export class LoginService {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })})
+  }
+
+  public logout(){
+    if(sessionStorage.getItem("userLoggedIn") == "fbuser"){
+      this.socialAuthService.signOut().then(() => {
+        sessionStorage.removeItem("jwt")
+        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem("userLoggedIn")
+        sessionStorage.removeItem("userName");
+        console.log("Signing out...");
+        this.router.navigate(['login']);
+      });
+    }
+    else {
+        sessionStorage.removeItem("jwt")
+        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem("userLoggedIn")
+        sessionStorage.removeItem("userName");
+        console.log("Signing out...");
+        this.router.navigate(['login']);
+    } 
   }
 }
