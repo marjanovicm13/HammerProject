@@ -54,8 +54,8 @@ namespace HammerProjectWebAPP
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "https://2n4knd3e00.execute-api.eu-central-1.amazonaws.com",
-        ValidAudience = "https://2n4knd3e00.execute-api.eu-central-1.amazonaws.com",
+        ValidIssuer = "https://localhost:5000/",
+        ValidAudience = "https://localhost:5000/",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345")),
         NameClaimType = "name"
       };
@@ -63,13 +63,6 @@ namespace HammerProjectWebAPP
 
       services.AddTransient<ITokenService, TokenService>();
       services.AddTransient<IAccountService, AccountService>();
-
-      //services.AddAuthentication().AddFacebook(facebookOptions =>
-      //{
-      //  facebookOptions.AppId = Constants.facebookId;
-      //  facebookOptions.AppSecret = Constants.facebookSecret;
-      //  facebookOptions.SignInScheme = "Bearer";
-      //});
 
       services.AddControllersWithViews();
 

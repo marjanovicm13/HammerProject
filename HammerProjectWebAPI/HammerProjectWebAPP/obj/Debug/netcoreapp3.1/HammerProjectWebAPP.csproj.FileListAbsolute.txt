@@ -221,7 +221,6 @@ D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectW
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\aws-beanstalk-tools-defaults.json
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\Amazon.Lambda.APIGatewayEvents.dll
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\Amazon.Lambda.ApplicationLoadBalancerEvents.dll
 D:\Fakultet\Fakultet\Projekti\Hammer praksa\Project\HammerProject\HammerProjectWebAPI\HammerProjectWebAPP\bin\Debug\netcoreapp3.1\Amazon.Lambda.AspNetCoreServer.dll
