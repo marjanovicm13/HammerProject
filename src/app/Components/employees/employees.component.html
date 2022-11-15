@@ -12,7 +12,7 @@
         <input ngModel name="departmentNo" placeholder="departmentNo">
         <br>
         <label for="lastModifyDate">Last modify date: </label>
-        <input type="datetime-local" ngModel name="lastModifyDate" placeholder="lastModifyDate">
+        <input type="date" ngModel name="lastModifyDate" placeholder="lastModifyDate">
         <br>
         <button id="add">Add new employee</button>
     </form>
@@ -29,7 +29,7 @@
             <th>departmentNo</th>
         </thead>
         <tbody>
-            <tr *ngFor="let employee of employees">
+            <tr *ngFor="let employee of updateEmployees">
                 <ng-container *ngIf="employee.updateClicked != true">
                     <td>{{employee.employeeNo}}</td>
                     <td>{{employee.employeeName}}</td>

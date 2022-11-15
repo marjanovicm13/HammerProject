@@ -73,7 +73,7 @@ namespace HammerProjectWebAPP
 
       services.AddControllersWithViews();
 
-      var connectionString = Configuration.GetConnectionString("WebApiDatabase");
+      var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
       services.AddDbContext<HammerProjectDbContext>(options => options.UseMySQL(connectionString));
     }

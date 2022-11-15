@@ -23,7 +23,31 @@ namespace HammerProjectWebAPP.Controllers
       DATE_FORMAT(lastModifyDate, '%d-%m-%Y %H:%i:%s') as lastModifyDate
       FROM employee;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
+      MySqlDataReader myReader;
+      using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
+      {
+        mycon.Open();
+        using (MySqlCommand myCommand = new MySqlCommand(query, mycon))
+        {
+          myReader = myCommand.ExecuteReader();
+          table.Load(myReader);
+
+          myReader.Close();
+          mycon.Close();
+        }
+      }
+      return new JsonResult(table);
+    }
+
+    [HttpGet]
+    [Route("updateEmployees")]
+    public JsonResult GetUpdateEmployees()
+    {
+      string query = @"select employeeNo, employeeName, salary, departmentNo
+      FROM employee;";
+      DataTable table = new DataTable();
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -47,7 +71,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"insert into employee (employeeName, salary, departmentNo, lastModifyDate) values
       (@employeeName, @salary, @departmentNo, @lastModifyDate);";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -73,10 +97,10 @@ namespace HammerProjectWebAPP.Controllers
     public JsonResult Put(Employee emp)
     {
       string query = @"update employee set
-      employeeName = @employeeName, salary = @salary, departmentNo = @departmentNo, lastModifyDate = @lastModifyDate
+      employeeName = @employeeName, salary = @salary, departmentNo = @departmentNo, lastModifyDate = @lastModifyDate 
       where employeeNo = @employeeNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -105,7 +129,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"delete from employee
       where employeeNo = @employeeNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {

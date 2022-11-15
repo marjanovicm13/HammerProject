@@ -23,7 +23,7 @@ namespace HammerProjectWebAPP.Controllers
 	                      FROM employee, department 
 	                      WHERE employee.departmentNo = department.departmentNo && departmentLocation != 'London';";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -50,7 +50,7 @@ namespace HammerProjectWebAPP.Controllers
 	                      GROUP BY departmentLocation 
 	                      HAVING count(employee.departmentNo)>1;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -77,7 +77,7 @@ namespace HammerProjectWebAPP.Controllers
 	                      GROUP BY departmentName, departmentLocation
 	                      ;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -104,7 +104,7 @@ namespace HammerProjectWebAPP.Controllers
                         LIMIT 1 , 1
 	                    ;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -127,7 +127,7 @@ namespace HammerProjectWebAPP.Controllers
     {
       string query = @"SELECT * FROM vwdepartment;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -149,7 +149,7 @@ namespace HammerProjectWebAPP.Controllers
     {
       string query = @"call spIncreaseSalary(@employeeNo, @increasePercentage);";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       //JsonConvert.DeserializeObject<dynamic>(recieve);
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
@@ -174,7 +174,7 @@ namespace HammerProjectWebAPP.Controllers
     {
       string query = @"call spDecreaseSalary(@employeeNo, @increasePercentage);";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       //JsonConvert.DeserializeObject<dynamic>(recieve);
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))

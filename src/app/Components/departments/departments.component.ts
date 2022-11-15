@@ -35,7 +35,7 @@ export class DepartmentsComponent implements OnInit {
   async getAllEmployees(){
     return await lastValueFrom (this.httpClient
     .get(
-      `${environment.baseEmployeeApiUrl}`
+      `${environment.baseApiUrl}/employee`
       ))
   }
 

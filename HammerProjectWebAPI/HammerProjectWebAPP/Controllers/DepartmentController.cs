@@ -21,7 +21,7 @@ namespace HammerProjectWebAPP.Controllers
     {
       string query = @"select * FROM department;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using(MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -45,7 +45,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"insert into department (departmentName, departmentLocation) values
       (@departmentName, @departmentLocation);";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -72,7 +72,7 @@ namespace HammerProjectWebAPP.Controllers
       departmentName = @departmentName, departmentLocation = @departmentLocation
       where departmentNo = @departmentNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {
@@ -99,7 +99,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"delete from department
       where departmentNo = @departmentNo;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {

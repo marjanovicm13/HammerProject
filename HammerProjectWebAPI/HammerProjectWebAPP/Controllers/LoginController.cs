@@ -31,7 +31,7 @@ namespace HammerProjectWebAPP.Controllers
       string query = @"select *
       FROM login;";
       DataTable table = new DataTable();
-      string sqlDataSource = _configuration.GetConnectionString("WebApiDatabase");
+      string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
       MySqlDataReader myReader;
       using (MySqlConnection mycon = new MySqlConnection(sqlDataSource))
       {

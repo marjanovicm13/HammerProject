@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from 'src/app/Models/Employee/employee';
+import { updateEmployee } from 'src/app/Models/Employee/updateemployee';
 import { EmployeeService } from 'src/app/Services/employee.service';
 import { RefreshTokenService } from 'src/app/Services/refresh-token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -17,6 +18,7 @@ import { lastValueFrom } from 'rxjs';
 export class EmployeesComponent implements OnInit {
 
   employees: Employee[] = [];
+  updateEmployees: updateEmployee[] = [];
   departments: Department[] = [];
   departmentExists: boolean = false
   textToSave: BlobPart = "";
@@ -32,12 +34,14 @@ export class EmployeesComponent implements OnInit {
   getAllEmployees(){
     this.employeeService.getEmployees()
                         .subscribe((result: Employee[]) => (this.employees = result));
+    this.employeeService.getUpdateEmployees()
+                        .subscribe((result: updateEmployee[]) => (this.updateEmployees = result));
   }
 
   async getAllDepartments(){
     return await lastValueFrom (this.httpClient
     .get(
-      `${environment.baseDepartmentApiUrl}`
+      `${environment.baseApiUrl}/department`
       ))
   }
 
@@ -92,7 +96,7 @@ export class EmployeesComponent implements OnInit {
             },
             error: response => {
               console.error(response)
-              alert("You are not authorized to delete an employee.")
+              alert("You are not authorized to create an employee.")
             }});
         }
         else{
@@ -102,7 +106,7 @@ export class EmployeesComponent implements OnInit {
             },
             error: response => {
               console.error(response)
-              alert("You are not authorized to delete an employee.")
+              alert("You are not authorized to create an employee.")
             }});
         }
       }
@@ -119,8 +123,19 @@ export class EmployeesComponent implements OnInit {
     }
   }
 
-  async saveEmployee(employee: Employee){
-    if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+  async saveEmployee(employee: updateEmployee){
+    this.getAllDepartments().then((data:any) => {
+      this.departments = data
+      //Check if departmentNo of the updated employee exists
+      this.departments.forEach(element => {
+        if(element.departmentNo == employee.departmentNo)
+        this.departmentExists = true
+      })
+}).finally(async () => {
+  if(this.departmentExists == false){
+    alert("departmentNo doesn't exist.")
+  }
+  else if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
       await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
       this.employeeService.updateEmployee(employee).subscribe({
         next: () => {
@@ -146,6 +161,8 @@ export class EmployeesComponent implements OnInit {
         }
         }))
     }
+  })
+  this.departmentExists = false;
   }
 
   getJson(){
