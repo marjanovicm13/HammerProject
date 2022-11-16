@@ -20,8 +20,8 @@ export class DepartmentsComponent implements OnInit {
   employees: Employee[] = [];
   departmentContainsEmployees: boolean = false;
 
-  constructor(private departmentService: DepartmentService, private employeeService: EmployeeService, 
-    private refreshTokenService: RefreshTokenService, private jwtHelper: JwtHelperService, private httpClient: HttpClient) { }
+  constructor(private departmentService: DepartmentService, private refreshTokenService: RefreshTokenService, 
+    private jwtHelper: JwtHelperService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.getAllDepartments();
@@ -50,6 +50,7 @@ export class DepartmentsComponent implements OnInit {
 
   async saveDepartment(department: Department) {
     if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+      //If token expired, refresh tokens
       await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
       this.departmentService.updateDepartments(department).subscribe({
         next: () => {
@@ -78,7 +79,6 @@ export class DepartmentsComponent implements OnInit {
   }
 
   async deleteDepartment(department: Department){
-
     this.getAllEmployees
     ().then((data:any) => {
       this.employees = data
@@ -93,6 +93,7 @@ export class DepartmentsComponent implements OnInit {
           this.departmentContainsEmployees = false;
         }
         else if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+          //If token is expired, refresh tokens
           await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
           this.departmentService.deleteDepartment(department).subscribe({
             next: () => {
@@ -125,6 +126,7 @@ export class DepartmentsComponent implements OnInit {
       alert("You have to fill out departmentName and departmentLocation")
     }
     else{
+      //If token is expired, refresh tokens
       if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
         await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
         this.departmentService.createDepartment(department).subscribe({

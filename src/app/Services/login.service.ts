@@ -6,8 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AuthenticatedResponse } from '../Models/AuthenticatedResponse/AuthenticatedResponse';
 import { Login } from '../Models/Login/login';
 import {
-  SocialAuthService,
-  SocialUser,
+  SocialAuthService
 } from 'angularx-social-login';
 
 @Injectable({

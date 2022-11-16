@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/Services/login.service';
 import {
-  SocialAuthService,
-  FacebookLoginProvider,
-  SocialUser,
+  SocialAuthService
 } from 'angularx-social-login';
-import { timeInterval } from 'rxjs';
 
 declare const FB: any;
 
@@ -27,8 +24,7 @@ export class NavbarComponent implements OnInit {
     this.checkLogin()
   }
 
-
-   checkLogin() {
+  checkLogin() {
     FB.getLoginStatus(function(response: any) {
       console.log(response)
      })

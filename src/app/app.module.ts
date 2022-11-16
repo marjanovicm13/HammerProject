@@ -40,9 +40,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["wv2l8ow7yk.execute-api.eu-central-1.amazonaws.com", "mbt72nmlz2.execute-api.eu-central-1.amazonaws.com", 
-        "lrw95c4ca3.execute-api.eu-central-1.amazonaws.com", "l1xu4yqmh5.execute-api.eu-central-1.amazonaws.com", 
-        "q1kv4srf0k.execute-api.eu-central-1.amazonaws.com", "hbv5yzzfr0.execute-api.eu-central-1.amazonaws.com", "localhost:5000"],
+        allowedDomains: ["localhost:5000"],
         disallowedRoutes: []
       }
     })

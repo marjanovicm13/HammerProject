@@ -25,7 +25,7 @@ export class EmployeesComponent implements OnInit {
   refresh: boolean =false
 
   constructor(private employeeService: EmployeeService, private refreshTokenService: RefreshTokenService,
-     private jwtHelper: JwtHelperService, private departmentService: DepartmentService, private httpClient: HttpClient) { }
+     private jwtHelper: JwtHelperService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.getAllEmployees();
@@ -47,6 +47,7 @@ export class EmployeesComponent implements OnInit {
 
    async deleteEmployee(employee: Employee){
         if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+          //If token is expired, refresh tokens
           await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
           this.employeeService.deleteEmployee(employee).subscribe({
             next: () => {
@@ -89,6 +90,7 @@ export class EmployeesComponent implements OnInit {
       }
       else{
         if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+          //If token is expired, refresh tokens
           await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
           this.employeeService.createEmployee(employee).subscribe({
             next: () => {
@@ -136,31 +138,32 @@ export class EmployeesComponent implements OnInit {
     alert("departmentNo doesn't exist.")
   }
   else if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
-      await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
-      this.employeeService.updateEmployee(employee).subscribe({
-        next: () => {
-          this.getAllEmployees()
-          employee.updateClicked = false;
-        },
-        error: response => {
+    //If token is expired, refresh tokens
+    await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+    this.employeeService.updateEmployee(employee).subscribe({
+      next: () => {
+        this.getAllEmployees()
+        employee.updateClicked = false;
+      },
+      error: response => {
+        console.error(response)
+        alert("You are not authorized to update an employee.")
+        employee.updateClicked = false;
+    }});
+  }
+  else{
+    this.employeeService.updateEmployee(employee).subscribe(({
+      next: () => {
+        this.getAllEmployees()
+        employee.updateClicked = false;
+      },
+      error: response => {
           console.error(response)
           alert("You are not authorized to update an employee.")
           employee.updateClicked = false;
-        }});
-    }
-    else{
-      this.employeeService.updateEmployee(employee).subscribe(({
-        next: () => {
-          this.getAllEmployees()
-          employee.updateClicked = false;
-        },
-        error: response => {
-            console.error(response)
-            alert("You are not authorized to update an employee.")
-            employee.updateClicked = false;
-        }
-        }))
-    }
+      }
+    }))
+  }
   })
   this.departmentExists = false;
   }

@@ -12,7 +12,6 @@
     </form>
 </div>
 
-
 <div class="list">
 <h5 (click)="getJson()">List of departments:</h5>
 <table id="departmentTable">
@@ -31,13 +30,10 @@
                 <td class="tableButtons"><button class="tableButton" (click)="updateDepartment(department)">Update</button></td>
             </ng-container>
             <ng-container *ngIf="department.updateClicked == true">
-
                         <td>{{department.departmentNo}}</td>
                         <td style="text-align:center;"><input class = "updateInput" [(ngModel)]="department.departmentName"></td>
                         <td><input class = "updateInput" [(ngModel)]="department.departmentLocation"></td>
                         <td class="tableButtons"><button class="tableButton" (click)="saveDepartment(department)">Save</button></td>
-                    
-       
             </ng-container>
         </tr>
     </tbody>

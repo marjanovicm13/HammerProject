@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  //baseEmployeeApiUrl: "https://mbt72nmlz2.execute-api.eu-central-1.amazonaws.com/PutGetPost",
-  //baseDepartmentApiUrl: "https://l1xu4yqmh5.execute-api.eu-central-1.amazonaws.com/GetPutPost",
   baseApiUrl: "https://localhost:5000/api"
 };
 
