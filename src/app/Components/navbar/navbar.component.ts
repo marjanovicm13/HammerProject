@@ -25,21 +25,22 @@ export class NavbarComponent implements OnInit {
   }
 
   checkLogin() {
-    FB.getLoginStatus(function(response: any) {
-      console.log(response)
-     })
-    if(sessionStorage.getItem("userLoggedIn") == null){
-      sessionStorage.removeItem("jwt")
-      sessionStorage.removeItem("refreshToken");
+    // FB.getLoginStatus(function(response: any) {
+    //   console.log(response)
+    //  })
+    console.log(localStorage.getItem("userLoggedIn") + " " + localStorage.getItem("jwt"))
+    if(localStorage.getItem("userLoggedIn") == null){
+      localStorage.removeItem("jwt")
+      localStorage.removeItem("refreshToken");
     }
     else{ 
-      if(sessionStorage.getItem("userLoggedIn") == "fbuser"){
+      if(localStorage.getItem("userLoggedIn") == "fbuser"){
         this.fbUserLoggedIn = true;
-        this.fbUserName = sessionStorage.getItem("userName")!
+        this.fbUserName = localStorage.getItem("userName")!
       }
       else{
         this.userLoggedIn = true;
-        this.userName = sessionStorage.getItem("userName")!
+        this.userName = localStorage.getItem("userName")!
       }
     }
   }

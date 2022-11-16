@@ -34,21 +34,29 @@ export class LoginService {
   }
 
   public logout(){
-    if(sessionStorage.getItem("userLoggedIn") == "fbuser"){
+    if(localStorage.getItem("userLoggedIn") == "fbuser"){
       this.socialAuthService.signOut().then(() => {
-        sessionStorage.removeItem("jwt")
-        sessionStorage.removeItem("refreshToken");
-        sessionStorage.removeItem("userLoggedIn")
-        sessionStorage.removeItem("userName");
+        localStorage.removeItem("jwt")
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userLoggedIn")
+        localStorage.removeItem("userName");
+        console.log("Signing out...");
+        this.router.navigate(['login']);
+      }).catch(()=>{
+        console.log("in error")
+        localStorage.removeItem("jwt")
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userLoggedIn")
+        localStorage.removeItem("userName");
         console.log("Signing out...");
         this.router.navigate(['login']);
       });
     }
     else {
-        sessionStorage.removeItem("jwt")
-        sessionStorage.removeItem("refreshToken");
-        sessionStorage.removeItem("userLoggedIn")
-        sessionStorage.removeItem("userName");
+        localStorage.removeItem("jwt")
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userLoggedIn")
+        localStorage.removeItem("userName");
         console.log("Signing out...");
         this.router.navigate(['login']);
     } 

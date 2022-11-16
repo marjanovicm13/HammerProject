@@ -17,7 +17,7 @@ export class RefreshTokenService {
   public async tryRefreshingTokens(token: string): Promise<boolean>{
     console.log("Refreshing tokens...")
 
-    const refreshToken: any = sessionStorage.getItem("refreshToken")
+    const refreshToken: any = localStorage.getItem("refreshToken")
     if(!token || !refreshToken){
       console.log("No tokens...")
       return false;
@@ -37,8 +37,8 @@ export class RefreshTokenService {
     });
   });
 
-  sessionStorage.setItem("jwt", refreshRes.accessToken)
-  sessionStorage.setItem("refreshToken", refreshRes.refreshToken)
+  localStorage.setItem("jwt", refreshRes.accessToken)
+  localStorage.setItem("refreshToken", refreshRes.refreshToken)
   
   isRefreshSuccess = true
   this.accessToken = refreshRes.accessToken

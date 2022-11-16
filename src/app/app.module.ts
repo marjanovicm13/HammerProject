@@ -17,7 +17,7 @@ import { initializeApp } from "firebase/app";
 
 
 export function tokenGetter() { 
-  return sessionStorage.getItem("jwt"); 
+  return localStorage.getItem("jwt"); 
 }
 
 @NgModule({

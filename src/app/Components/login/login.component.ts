@@ -23,22 +23,22 @@ export class LoginComponent implements OnInit {
     private refreshTokenService: RefreshTokenService) { }
 
   ngOnInit(): void {
-    sessionStorage.clear
+    localStorage.clear
   }
 
   login(user: Login){
     this.loginService.loginUser(user).subscribe(  {
 
       next: data => {
-        sessionStorage.setItem("jwt", data.accessToken)
-        sessionStorage.setItem("refreshToken", data.refreshToken)
+        localStorage.setItem("jwt", data.accessToken)
+        localStorage.setItem("refreshToken", data.refreshToken)
 
         this.refreshTokenService.accessToken = data.accessToken;
         this.errorMessage = false;
         this.userLoggedIn = "user"
 
-        sessionStorage.setItem("userLoggedIn", this.userLoggedIn)
-        sessionStorage.setItem("userName", user.loginUserName)
+        localStorage.setItem("userLoggedIn", this.userLoggedIn)
+        localStorage.setItem("userName", user.loginUserName)
 
         this.router.navigate(['home'])
       },
@@ -58,14 +58,14 @@ export class LoginComponent implements OnInit {
 
       this.loginService.loginFacebookUser(fbToken).subscribe(  {
         next: data => {
-          sessionStorage.setItem("jwt", data.accessToken)
-          sessionStorage.setItem("refreshToken", data.refreshToken)
+          localStorage.setItem("jwt", data.accessToken)
+          localStorage.setItem("refreshToken", data.refreshToken)
 
           this.refreshTokenService.accessToken = data.accessToken;
           this.userLoggedIn = "fbuser"
 
-          sessionStorage.setItem("userLoggedIn", this.userLoggedIn)
-          sessionStorage.setItem("userName", user.firstName + " " + user.lastName)
+          localStorage.setItem("userLoggedIn", this.userLoggedIn)
+          localStorage.setItem("userName", user.firstName + " " + user.lastName)
 
           this.router.navigate(['home'])
         },

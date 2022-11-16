@@ -46,9 +46,9 @@ export class EmployeesComponent implements OnInit {
   }
 
    async deleteEmployee(employee: Employee){
-        if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+        if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
           //If token is expired, refresh tokens
-          await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+          await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
           this.employeeService.deleteEmployee(employee).subscribe({
             next: () => {
               this.getAllEmployees()
@@ -79,7 +79,7 @@ export class EmployeesComponent implements OnInit {
             this.departmentExists = true
           })
     }).finally(async () => {
-      if(sessionStorage.getItem("jwt") == null){
+      if(localStorage.getItem("jwt") == null){
         alert("You are not authorized to create an employee.")
       }
       else if(!employee.departmentNo || employee.employeeName == "" || !employee.salary){
@@ -89,9 +89,9 @@ export class EmployeesComponent implements OnInit {
         alert("departmentNo doesn't exist.")
       }
       else{
-        if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+        if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
           //If token is expired, refresh tokens
-          await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+          await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
           this.employeeService.createEmployee(employee).subscribe({
             next: () => {
               this.getAllEmployees()
@@ -117,7 +117,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   updateEmployee(employee: Employee){
-    if(sessionStorage.getItem("jwt") != null){
+    if(localStorage.getItem("jwt") != null){
       employee.updateClicked = true;
     }
     else{
@@ -137,9 +137,9 @@ export class EmployeesComponent implements OnInit {
   if(this.departmentExists == false){
     alert("departmentNo doesn't exist.")
   }
-  else if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+  else if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
     //If token is expired, refresh tokens
-    await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+    await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
     this.employeeService.updateEmployee(employee).subscribe({
       next: () => {
         this.getAllEmployees()

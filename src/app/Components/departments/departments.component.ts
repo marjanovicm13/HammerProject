@@ -40,7 +40,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   updateDepartment(department: Department) {
-    if(sessionStorage.getItem("jwt") != null){
+    if(localStorage.getItem("jwt") != null){
       department.updateClicked = true;
     }
     else{
@@ -49,9 +49,9 @@ export class DepartmentsComponent implements OnInit {
   }
 
   async saveDepartment(department: Department) {
-    if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+    if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
       //If token expired, refresh tokens
-      await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+      await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
       this.departmentService.updateDepartments(department).subscribe({
         next: () => {
           this.getAllDepartments()
@@ -92,9 +92,9 @@ export class DepartmentsComponent implements OnInit {
           alert("Cannot delete this department because it contains employees");
           this.departmentContainsEmployees = false;
         }
-        else if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
+        else if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
           //If token is expired, refresh tokens
-          await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+          await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
           this.departmentService.deleteDepartment(department).subscribe({
             next: () => {
               this.getAllDepartments()
@@ -119,7 +119,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   async createDepartment(department: Department){
-    if(sessionStorage.getItem("jwt") == null){
+    if(localStorage.getItem("jwt") == null){
       alert("You are not authorized to create a department.")
     }
     else if(department.departmentName == "" || department.departmentLocation == ""){
@@ -127,8 +127,8 @@ export class DepartmentsComponent implements OnInit {
     }
     else{
       //If token is expired, refresh tokens
-      if(this.jwtHelper.isTokenExpired(sessionStorage.getItem("jwt")!)){
-        await this.refreshTokenService.tryRefreshingTokens(sessionStorage.getItem("jwt")!)
+      if(this.jwtHelper.isTokenExpired(localStorage.getItem("jwt")!)){
+        await this.refreshTokenService.tryRefreshingTokens(localStorage.getItem("jwt")!)
         this.departmentService.createDepartment(department).subscribe({
           next: () => {
             this.getAllDepartments()
