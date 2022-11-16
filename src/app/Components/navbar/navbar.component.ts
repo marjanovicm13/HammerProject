@@ -25,9 +25,6 @@ export class NavbarComponent implements OnInit {
   }
 
   checkLogin() {
-    // FB.getLoginStatus(function(response: any) {
-    //   console.log(response)
-    //  })
     console.log(localStorage.getItem("userLoggedIn") + " " + localStorage.getItem("jwt"))
     if(localStorage.getItem("userLoggedIn") == null){
       localStorage.removeItem("jwt")
